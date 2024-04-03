@@ -1,0 +1,22 @@
+version: '2.1'
+services:
+  txt_sum:
+    image: txt_sum:3.1
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5001:80"
+    environment:
+      - TORCH_USE_CUDA_DSA=1
+      - CUDA_LAUNCH_BLOCKING=1
+    volumes:
+      - /home/najmul/nltk_data:/app/nltk_data
+    restart: unless-stopped
+    runtime: nvidia
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [gpu]
